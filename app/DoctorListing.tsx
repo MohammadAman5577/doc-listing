@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Image from "next/image";
 
 // Define the Doctor type based on the provided JSON structure
 interface Doctor {
@@ -78,7 +79,7 @@ export default function DoctorListingPage() {
         const data: Doctor[] = await response.json();
         // Basic validation or transformation if needed
         setAllDoctors(data || []); // Ensure data is an array
-      } catch (e) {
+      } catch (e: unknown) {
         console.error("Failed to fetch doctors:", e);
         setError(
           `Failed to load doctor data. ${e instanceof Error ? e.message : "Please try again later."}`
@@ -410,12 +411,12 @@ export default function DoctorListingPage() {
                         className="border rounded-lg p-4 shadow hover:shadow-lg transition-shadow duration-300 bg-white flex flex-col items-center text-center" // Centered content
                         data-testid="doctor-card"
                       >
-                        <img
-                          // Use doctor.photo and provide a robust fallback
+                        <Image
                           src={doctor.photo || 'https://placehold.co/150x150/E0E0E0/BDBDBD?text=No+Image'}
                           alt={`Dr. ${doctor.name}`}
-                          className="w-24 h-24 rounded-full mb-3 object-cover border border-gray-200" // Added border
-                          // More specific placeholder on error
+                          width={96}
+                          height={96}
+                          className="w-24 h-24 rounded-full mb-3 object-cover border border-gray-200"
                           onError={(e) => (e.currentTarget.src = 'https://placehold.co/150x150/E0E0E0/BDBDBD?text=No+Image')}
                         />
                         <h3 className="text-lg font-semibold text-gray-800 mb-1" data-testid="doctor-name">
