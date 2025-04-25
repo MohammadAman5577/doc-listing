@@ -103,7 +103,7 @@ export default function DoctorListingPage() {
 
   // Update URL params whenever filters change
   const updateUrlParams = useCallback(() => {
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(searchParams.toString());
     if (searchTerm) params.set("search", searchTerm);
     if (selectedConsultation) params.set("consultation", selectedConsultation);
     selectedSpecialties.forEach((spec) => params.append("specialty", spec));
@@ -412,12 +412,13 @@ export default function DoctorListingPage() {
                         data-testid="doctor-card"
                       >
                         <Image
-                          src={doctor.photo || 'https://placehold.co/150x150/E0E0E0/BDBDBD?text=No+Image'}
+                          src={doctor.photo && typeof doctor.photo === 'string' && doctor.photo.trim() !== ''
+                            ? doctor.photo
+                            : 'https://placehold.co/150x150/E0E0E0/BDBDBD?text=No+Image'}
                           alt={`Dr. ${doctor.name}`}
                           width={96}
                           height={96}
                           className="w-24 h-24 rounded-full mb-3 object-cover border border-gray-200"
-                          onError={(e) => (e.currentTarget.src = 'https://placehold.co/150x150/E0E0E0/BDBDBD?text=No+Image')}
                         />
                         <h3 className="text-lg font-semibold text-gray-800 mb-1" data-testid="doctor-name">
                            {/* Removed "Dr." prefix assuming it's in the name */}
