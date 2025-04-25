@@ -79,7 +79,7 @@ export default function DoctorListingPage() {
         const data: Doctor[] = await response.json();
         // Basic validation or transformation if needed
         setAllDoctors(data || []); // Ensure data is an array
-      } catch (e: any) {
+      } catch (e: unknown) {
         console.error("Failed to fetch doctors:", e);
         setError(
           `Failed to load doctor data. ${e.message || "Please try again later."}`
