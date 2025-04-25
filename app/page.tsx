@@ -81,9 +81,13 @@ export default function DoctorListingPage() {
         setAllDoctors(data || []); // Ensure data is an array
       } catch (e: unknown) {
         console.error("Failed to fetch doctors:", e);
-        setError(
-          `Failed to load doctor data. ${e.message || "Please try again later."}`
-        );
+      
+        let message = "Please try again later.";
+        if (e instanceof Error) {
+          message = e.message;
+        }
+      
+        setError(`Failed to load doctor data. ${message}`);
       } finally {
         setIsLoading(false);
       }
